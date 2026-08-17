@@ -1,0 +1,1039 @@
+import { useEffect, useState, useCallback } from "react";
+
+/* ============================================================
+   CONFIG
+   Apne backend ka base URL yaha set karo (ya .env se lo)
+============================================================ */
+const API_BASE = process.env.REACT_APP_API_BASE || "http://localhost:7000/api";
+
+const ROOM_TYPES = [
+  "standard", "deluxe", "super-deluxe", "premium", "executive",
+  "suite", "junior-suite", "presidential-suite", "family-room",
+  "studio", "villa", "dormitory", "other",
+];
+
+const BED_TYPES = [
+  "single", "twin", "double", "queen", "king",
+  "super-king", "bunk", "sofa-bed", "multiple", "other",
+];
+
+const VIEW_TYPES = [
+  "city-view", "garden-view", "pool-view", "mountain-view",
+  "sea-view", "lake-view", "courtyard-view", "no-view", "other",
+];
+
+const MEAL_PLANS = [
+  "room-only", "breakfast", "breakfast-lunch",
+  "breakfast-dinner", "half-board", "full-board", "all-meals",
+];
+
+const STATUS_LIST = ["DRAFT", "PENDING", "APPROVED", "REJECTED", "ACTIVE", "INACTIVE"];
+
+const STATUS_COLORS = {
+  DRAFT: "#9e9e9e",
+  PENDING: "#FF9800",
+  APPROVED: "#2196F3",
+  REJECTED: "#f44336",
+  ACTIVE: "#4CAF50",
+  INACTIVE: "#795548",
+};
+
+const AMENITY_FIELDS = [
+  ["wifi", "Wifi"],
+  ["airConditioning", "AC"],
+  ["heater", "Heater"],
+  ["television", "TV"],
+  ["smartTv", "Smart TV"],
+  ["minibar", "Minibar"],
+  ["refrigerator", "Fridge"],
+  ["wardrobe", "Wardrobe"],
+  ["workDesk", "Work Desk"],
+  ["sofa", "Sofa"],
+  ["balcony", "Balcony"],
+  ["terrace", "Terrace"],
+  ["kitchen", "Kitchen"],
+  ["kitchenette", "Kitchenette"],
+  ["washingMachine", "Washing Machine"],
+  ["iron", "Iron"],
+  ["roomService", "Room Service"],
+];
+
+const POLICY_FIELDS = [
+  ["coupleFriendly", "Couple Friendly"],
+  ["unmarriedCouplesAllowed", "Unmarried Couples Allowed"],
+  ["localIdAllowed", "Local ID Allowed"],
+  ["childrenAllowed", "Children Allowed"],
+  ["petsAllowed", "Pets Allowed"],
+  ["smokingAllowed", "Smoking Allowed"],
+  ["alcoholAllowed", "Alcohol Allowed"],
+  ["partiesAllowed", "Parties Allowed"],
+  ["eventsAllowed", "Events Allowed"],
+];
+
+const EMPTY_FORM = {
+  roomName: "",
+  roomType: "standard",
+  description: "",
+  shortDescription: "",
+  floorNumber: "",
+  roomSize: "",
+  roomSizeUnit: "sqft",
+  viewType: "no-view",
+
+  totalRooms: 1,
+  maxGuests: 2,
+  maxAdults: 2,
+  maxChildren: 0,
+
+  extraGuestAllowed: false,
+  extraGuestCharge: 0,
+
+  bedType: "double",
+  bedCount: 1,
+  extraBedAvailable: false,
+  extraBedCharge: 0,
+
+  wifi: false, airConditioning: false, heater: false, television: false,
+  smartTv: false, minibar: false, refrigerator: false, wardrobe: false,
+  workDesk: false, sofa: false, balcony: false, terrace: false,
+  kitchen: false, kitchenette: false, washingMachine: false, iron: false,
+  roomService: false,
+
+  bathroomCount: 1,
+  bathroomType: "private",
+  bathtub: false,
+  shower: true,
+  hotWater: true,
+  toiletries: false,
+  hairDryer: false,
+
+  mealPlan: "room-only",
+  breakfastIncluded: false,
+  lunchIncluded: false,
+  dinnerIncluded: false,
+  mealPrice: 0,
+
+  basePrice: "",
+  weekendPrice: 0,
+  holidayPrice: 0,
+  offerPrice: 0,
+  taxPercentage: 0,
+  serviceChargePercentage: 0,
+  pricingMode: "PER_NIGHT",
+
+  refundable: true,
+  freeCancellation: false,
+  cancellationDeadlineHours: 24,
+  cancellationPolicy: "",
+
+  instantBooking: true,
+  bookingConfirmationRequired: false,
+
+  minimumStay: 1,
+  maximumStay: 30,
+
+  coupleFriendly: true,
+  unmarriedCouplesAllowed: true,
+  localIdAllowed: true,
+  childrenAllowed: true,
+  petsAllowed: false,
+  smokingAllowed: false,
+  alcoholAllowed: false,
+  partiesAllowed: false,
+  eventsAllowed: false,
+
+  coverImage: "",
+  imagesText: "", // comma separated -> converted to images[] on submit
+  featured: false,
+};
+
+export default function VendorHotelRooms() {
+  const [hotels, setHotels] = useState([]);
+  const [selectedHotelId, setSelectedHotelId] = useState("");
+  const [rooms, setRooms] = useState([]);
+
+  const [loadingHotels, setLoadingHotels] = useState(true);
+  const [loadingRooms, setLoadingRooms] = useState(false);
+  const [saving, setSaving] = useState(false);
+
+  const [showModal, setShowModal] = useState(false);
+  const [editingRoomId, setEditingRoomId] = useState(null);
+  const [form, setForm] = useState(EMPTY_FORM);
+  const [activeSection, setActiveSection] = useState("basic");
+
+  const [toast, setToast] = useState(null); // { type: 'success'|'error', message }
+  const [error, setError] = useState("");
+
+  const token = localStorage.getItem("token");
+
+  const authHeaders = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  };
+
+  const showToast = (type, message) => {
+    setToast({ type, message });
+    setTimeout(() => setToast(null), 3000);
+  };
+
+  /* ================= FETCH VENDOR HOTELS ================= */
+  const fetchHotels = useCallback(async () => {
+    setLoadingHotels(true);
+    try {
+      const res = await fetch(`${API_BASE}/vendor/hotels`, {
+        headers: authHeaders,
+      });
+      const data = await res.json();
+      const list = data.hotels || data.data || (Array.isArray(data) ? data : []);
+      setHotels(list);
+      if (list.length && !selectedHotelId) {
+        setSelectedHotelId(list[0]._id);
+      }
+    } catch (err) {
+      console.error(err);
+      showToast("error", "Failed to load hotels");
+    } finally {
+      setLoadingHotels(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  /* ================= FETCH ROOMS FOR HOTEL ================= */
+  const fetchRooms = useCallback(async (hotelId) => {
+    if (!hotelId) return;
+    setLoadingRooms(true);
+    try {
+      const res = await fetch(`${API_BASE}/hotel-rooms/hotel/${hotelId}`, {
+        headers: authHeaders,
+      });
+      const data = await res.json();
+      if (data.success) {
+        setRooms(data.rooms || []);
+      } else {
+        setRooms([]);
+        showToast("error", data.message || "Failed to load rooms");
+      }
+    } catch (err) {
+      console.error(err);
+      showToast("error", "Failed to load rooms");
+    } finally {
+      setLoadingRooms(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    fetchHotels();
+  }, [fetchHotels]);
+
+  useEffect(() => {
+    if (selectedHotelId) fetchRooms(selectedHotelId);
+  }, [selectedHotelId, fetchRooms]);
+
+  /* ================= FORM HELPERS ================= */
+  const openAddModal = () => {
+    setEditingRoomId(null);
+    setForm(EMPTY_FORM);
+    setActiveSection("basic");
+    setError("");
+    setShowModal(true);
+  };
+
+  const openEditModal = (room) => {
+    setEditingRoomId(room._id);
+    setForm({
+      ...EMPTY_FORM,
+      ...room,
+      imagesText: (room.images || []).join(", "),
+    });
+    setActiveSection("basic");
+    setError("");
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setEditingRoomId(null);
+  };
+
+  const handleChange = (field, value) => {
+    setForm((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleCheckbox = (field) => {
+    setForm((prev) => ({ ...prev, [field]: !prev[field] }));
+  };
+
+  /* ================= SUBMIT (CREATE / UPDATE) ================= */
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    if (!selectedHotelId) {
+      setError("Please select a hotel first.");
+      return;
+    }
+    if (!form.roomName.trim()) {
+      setError("Room name is required.");
+      return;
+    }
+    if (!form.totalRooms || Number(form.totalRooms) < 1) {
+      setError("Total rooms must be at least 1.");
+      return;
+    }
+    if (!form.maxGuests || Number(form.maxGuests) < 1) {
+      setError("Max guests must be at least 1.");
+      return;
+    }
+    if (form.basePrice === "" || Number(form.basePrice) < 0) {
+      setError("Base price is required.");
+      return;
+    }
+
+    const payload = {
+      ...form,
+      hotelId: selectedHotelId,
+      images: form.imagesText
+        ? form.imagesText.split(",").map((s) => s.trim()).filter(Boolean)
+        : [],
+    };
+    delete payload.imagesText;
+
+    setSaving(true);
+    try {
+      const url = editingRoomId
+        ? `${API_BASE}/hotel-rooms/${editingRoomId}`
+        : `${API_BASE}/hotel-rooms`;
+      const method = editingRoomId ? "PUT" : "POST";
+
+      const res = await fetch(url, {
+        method,
+        headers: authHeaders,
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+
+      if (!data.success) {
+        setError(data.message || "Something went wrong.");
+        setSaving(false);
+        return;
+      }
+
+      showToast("success", editingRoomId ? "Room updated!" : "Room created!");
+      closeModal();
+      fetchRooms(selectedHotelId);
+    } catch (err) {
+      console.error(err);
+      setError("Network error. Please try again.");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  /* ================= DELETE ================= */
+  const handleDelete = async (room) => {
+    if (!window.confirm(`Delete room "${room.roomName}"?`)) return;
+    try {
+      const res = await fetch(`${API_BASE}/hotel-rooms/${room._id}`, {
+        method: "DELETE",
+        headers: authHeaders,
+      });
+      const data = await res.json();
+      if (data.success) {
+        showToast("success", "Room deleted.");
+        fetchRooms(selectedHotelId);
+      } else {
+        showToast("error", data.message || "Delete failed.");
+      }
+    } catch (err) {
+      console.error(err);
+      showToast("error", "Delete failed.");
+    }
+  };
+
+  /* ================= STATUS UPDATE ================= */
+  const handleStatusChange = async (room, status) => {
+    try {
+      const res = await fetch(`${API_BASE}/hotel-rooms/${room._id}/status`, {
+        method: "PUT",
+        headers: authHeaders,
+        body: JSON.stringify({ status }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        showToast("success", "Status updated.");
+        fetchRooms(selectedHotelId);
+      } else {
+        showToast("error", data.message || "Status update failed.");
+      }
+    } catch (err) {
+      console.error(err);
+      showToast("error", "Status update failed.");
+    }
+  };
+
+  const selectedHotel = hotels.find((h) => h._id === selectedHotelId);
+
+  /* ================================================================
+     RENDER
+  ================================================================ */
+  return (
+    <div style={styles.wrapper}>
+      {/* TOAST */}
+      {toast && (
+        <div
+          style={{
+            ...styles.toast,
+            background: toast.type === "success" ? "#4CAF50" : "#f44336",
+          }}
+        >
+          {toast.type === "success" ? "✅" : "⚠️"} {toast.message}
+        </div>
+      )}
+
+      {/* HEADER ROW */}
+      <div style={styles.topBar}>
+        <div style={styles.hotelSelectBox}>
+          <label style={styles.label}>Select Hotel</label>
+          {loadingHotels ? (
+            <p style={styles.mutedText}>Loading hotels…</p>
+          ) : hotels.length === 0 ? (
+            <p style={styles.mutedText}>No hotels found. Add a hotel first.</p>
+          ) : (
+            <select
+              style={styles.select}
+              value={selectedHotelId}
+              onChange={(e) => setSelectedHotelId(e.target.value)}
+            >
+              {hotels.map((h) => (
+                <option key={h._id} value={h._id}>
+                  {h.hotelName} {h.city ? `— ${h.city}` : ""}
+                </option>
+              ))}
+            </select>
+          )}
+        </div>
+
+        <button
+          style={{
+            ...styles.primaryBtn,
+            opacity: selectedHotelId ? 1 : 0.5,
+            cursor: selectedHotelId ? "pointer" : "not-allowed",
+          }}
+          disabled={!selectedHotelId}
+          onClick={openAddModal}
+        >
+          ➕ Add Room
+        </button>
+      </div>
+
+      {selectedHotel && (
+        <p style={styles.hotelSubtitle}>
+          Managing rooms for <strong>{selectedHotel.hotelName}</strong>
+        </p>
+      )}
+
+      {/* ROOMS GRID */}
+      {loadingRooms ? (
+        <p style={styles.mutedText}>Loading rooms…</p>
+      ) : rooms.length === 0 ? (
+        <div style={styles.emptyState}>
+          <span style={{ fontSize: 40 }}>🛏️</span>
+          <p>No rooms added yet for this hotel.</p>
+        </div>
+      ) : (
+        <div style={styles.roomGrid}>
+          {rooms.map((room) => (
+            <div key={room._id} style={styles.roomCard}>
+              <div style={styles.roomCardHeader}>
+                <div
+                  style={{
+                    ...styles.roomImage,
+                    backgroundImage: room.coverImage
+                      ? `url(${room.coverImage})`
+                      : "none",
+                  }}
+                >
+                  {!room.coverImage && <span style={{ fontSize: 30 }}>🏨</span>}
+                </div>
+                <span
+                  style={{
+                    ...styles.statusBadge,
+                    background: (STATUS_COLORS[room.status] || "#999") + "22",
+                    color: STATUS_COLORS[room.status] || "#999",
+                    borderColor: STATUS_COLORS[room.status] || "#999",
+                  }}
+                >
+                  {room.status}
+                </span>
+              </div>
+
+              <div style={styles.roomCardBody}>
+                <h3 style={styles.roomTitle}>{room.roomName}</h3>
+                <p style={styles.roomType}>{room.roomType}</p>
+
+                <div style={styles.roomMetaRow}>
+                  <span>👥 {room.maxGuests} guests</span>
+                  <span>🛏️ {room.bedType}</span>
+                </div>
+                <div style={styles.roomMetaRow}>
+                  <span>🏷️ ₹{room.basePrice}/night</span>
+                  <span>
+                    🚪 {room.availableRooms}/{room.totalRooms} available
+                  </span>
+                </div>
+
+                <div style={styles.roomActions}>
+                  <button style={styles.smallBtn} onClick={() => openEditModal(room)}>
+                    ✏️ Edit
+                  </button>
+                  <button
+                    style={{ ...styles.smallBtn, background: "#dc354522", color: "#dc3545" }}
+                    onClick={() => handleDelete(room)}
+                  >
+                    🗑️ Delete
+                  </button>
+                </div>
+
+                <select
+                  style={styles.statusSelect}
+                  value={room.status}
+                  onChange={(e) => handleStatusChange(room, e.target.value)}
+                >
+                  {STATUS_LIST.map((s) => (
+                    <option key={s} value={s}>
+                      {s}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* ================= ADD/EDIT MODAL ================= */}
+      {showModal && (
+        <div style={styles.modalOverlay} onClick={closeModal}>
+          <div style={styles.modalBox} onClick={(e) => e.stopPropagation()}>
+            <div style={styles.modalHeader}>
+              <h2 style={styles.modalTitle}>
+                {editingRoomId ? "Edit Room" : "Add New Room"}
+              </h2>
+              <button style={styles.closeBtn} onClick={closeModal}>
+                ✕
+              </button>
+            </div>
+
+            {/* SECTION TABS */}
+            <div style={styles.tabRow}>
+              {[
+                ["basic", "Basic"],
+                ["inventory", "Inventory & Beds"],
+                ["amenities", "Amenities"],
+                ["bathroom", "Bathroom & Meals"],
+                ["pricing", "Pricing"],
+                ["policy", "Policies"],
+                ["media", "Media"],
+              ].map(([key, label]) => (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => setActiveSection(key)}
+                  style={{
+                    ...styles.tabBtn,
+                    ...(activeSection === key ? styles.tabBtnActive : {}),
+                  }}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+
+            {error && <div style={styles.errorBox}>{error}</div>}
+
+            <form onSubmit={handleSubmit} style={styles.form}>
+              {/* ---------- BASIC ---------- */}
+              {activeSection === "basic" && (
+                <div style={styles.fieldGrid}>
+                  <TextField label="Room Name *" value={form.roomName}
+                    onChange={(v) => handleChange("roomName", v)} />
+                  <SelectField label="Room Type *" value={form.roomType}
+                    options={ROOM_TYPES} onChange={(v) => handleChange("roomType", v)} />
+                  <SelectField label="View Type" value={form.viewType}
+                    options={VIEW_TYPES} onChange={(v) => handleChange("viewType", v)} />
+                  <TextField label="Floor Number" value={form.floorNumber}
+                    onChange={(v) => handleChange("floorNumber", v)} />
+                  <NumberField label="Room Size" value={form.roomSize}
+                    onChange={(v) => handleChange("roomSize", v)} />
+                  <SelectField label="Size Unit" value={form.roomSizeUnit}
+                    options={["sqft", "sqm"]} onChange={(v) => handleChange("roomSizeUnit", v)} />
+                  <TextAreaField label="Short Description" value={form.shortDescription}
+                    onChange={(v) => handleChange("shortDescription", v)} full />
+                  <TextAreaField label="Description" value={form.description}
+                    onChange={(v) => handleChange("description", v)} full />
+                </div>
+              )}
+
+              {/* ---------- INVENTORY & BEDS ---------- */}
+              {activeSection === "inventory" && (
+                <div style={styles.fieldGrid}>
+                  <NumberField label="Total Rooms *" value={form.totalRooms}
+                    onChange={(v) => handleChange("totalRooms", v)} min={1} />
+                  <NumberField label="Max Guests *" value={form.maxGuests}
+                    onChange={(v) => handleChange("maxGuests", v)} min={1} />
+                  <NumberField label="Max Adults" value={form.maxAdults}
+                    onChange={(v) => handleChange("maxAdults", v)} min={1} />
+                  <NumberField label="Max Children" value={form.maxChildren}
+                    onChange={(v) => handleChange("maxChildren", v)} min={0} />
+                  <SelectField label="Bed Type" value={form.bedType}
+                    options={BED_TYPES} onChange={(v) => handleChange("bedType", v)} />
+                  <NumberField label="Bed Count" value={form.bedCount}
+                    onChange={(v) => handleChange("bedCount", v)} min={1} />
+                  <CheckField label="Extra Guest Allowed" checked={form.extraGuestAllowed}
+                    onChange={() => handleCheckbox("extraGuestAllowed")} />
+                  <NumberField label="Extra Guest Charge" value={form.extraGuestCharge}
+                    onChange={(v) => handleChange("extraGuestCharge", v)} min={0} />
+                  <CheckField label="Extra Bed Available" checked={form.extraBedAvailable}
+                    onChange={() => handleCheckbox("extraBedAvailable")} />
+                  <NumberField label="Extra Bed Charge" value={form.extraBedCharge}
+                    onChange={(v) => handleChange("extraBedCharge", v)} min={0} />
+                  <NumberField label="Minimum Stay (nights)" value={form.minimumStay}
+                    onChange={(v) => handleChange("minimumStay", v)} min={1} />
+                  <NumberField label="Maximum Stay (nights)" value={form.maximumStay}
+                    onChange={(v) => handleChange("maximumStay", v)} min={1} />
+                </div>
+              )}
+
+              {/* ---------- AMENITIES ---------- */}
+              {activeSection === "amenities" && (
+                <div style={styles.checkGrid}>
+                  {AMENITY_FIELDS.map(([key, label]) => (
+                    <CheckField key={key} label={label} checked={form[key]}
+                      onChange={() => handleCheckbox(key)} />
+                  ))}
+                </div>
+              )}
+
+              {/* ---------- BATHROOM & MEALS ---------- */}
+              {activeSection === "bathroom" && (
+                <div style={styles.fieldGrid}>
+                  <NumberField label="Bathroom Count" value={form.bathroomCount}
+                    onChange={(v) => handleChange("bathroomCount", v)} min={1} />
+                  <SelectField label="Bathroom Type" value={form.bathroomType}
+                    options={["private", "shared", "attached"]}
+                    onChange={(v) => handleChange("bathroomType", v)} />
+                  <CheckField label="Bathtub" checked={form.bathtub}
+                    onChange={() => handleCheckbox("bathtub")} />
+                  <CheckField label="Shower" checked={form.shower}
+                    onChange={() => handleCheckbox("shower")} />
+                  <CheckField label="Hot Water" checked={form.hotWater}
+                    onChange={() => handleCheckbox("hotWater")} />
+                  <CheckField label="Toiletries" checked={form.toiletries}
+                    onChange={() => handleCheckbox("toiletries")} />
+                  <CheckField label="Hair Dryer" checked={form.hairDryer}
+                    onChange={() => handleCheckbox("hairDryer")} />
+
+                  <SelectField label="Meal Plan" value={form.mealPlan}
+                    options={MEAL_PLANS} onChange={(v) => handleChange("mealPlan", v)} />
+                  <CheckField label="Breakfast Included" checked={form.breakfastIncluded}
+                    onChange={() => handleCheckbox("breakfastIncluded")} />
+                  <CheckField label="Lunch Included" checked={form.lunchIncluded}
+                    onChange={() => handleCheckbox("lunchIncluded")} />
+                  <CheckField label="Dinner Included" checked={form.dinnerIncluded}
+                    onChange={() => handleCheckbox("dinnerIncluded")} />
+                  <NumberField label="Meal Price" value={form.mealPrice}
+                    onChange={(v) => handleChange("mealPrice", v)} min={0} />
+                </div>
+              )}
+
+              {/* ---------- PRICING ---------- */}
+              {activeSection === "pricing" && (
+                <div style={styles.fieldGrid}>
+                  <NumberField label="Base Price *" value={form.basePrice}
+                    onChange={(v) => handleChange("basePrice", v)} min={0} />
+                  <NumberField label="Weekend Price" value={form.weekendPrice}
+                    onChange={(v) => handleChange("weekendPrice", v)} min={0} />
+                  <NumberField label="Holiday Price" value={form.holidayPrice}
+                    onChange={(v) => handleChange("holidayPrice", v)} min={0} />
+                  <NumberField label="Offer Price" value={form.offerPrice}
+                    onChange={(v) => handleChange("offerPrice", v)} min={0} />
+                  <NumberField label="Tax %" value={form.taxPercentage}
+                    onChange={(v) => handleChange("taxPercentage", v)} min={0} max={100} />
+                  <NumberField label="Service Charge %" value={form.serviceChargePercentage}
+                    onChange={(v) => handleChange("serviceChargePercentage", v)} min={0} max={100} />
+                  <SelectField label="Pricing Mode" value={form.pricingMode}
+                    options={["PER_NIGHT", "PER_ROOM"]} onChange={(v) => handleChange("pricingMode", v)} />
+
+                  <CheckField label="Refundable" checked={form.refundable}
+                    onChange={() => handleCheckbox("refundable")} />
+                  <CheckField label="Free Cancellation" checked={form.freeCancellation}
+                    onChange={() => handleCheckbox("freeCancellation")} />
+                  <NumberField label="Cancellation Deadline (hrs)" value={form.cancellationDeadlineHours}
+                    onChange={(v) => handleChange("cancellationDeadlineHours", v)} min={0} />
+                  <CheckField label="Instant Booking" checked={form.instantBooking}
+                    onChange={() => handleCheckbox("instantBooking")} />
+                  <CheckField label="Booking Confirmation Required" checked={form.bookingConfirmationRequired}
+                    onChange={() => handleCheckbox("bookingConfirmationRequired")} />
+                  <TextAreaField label="Cancellation Policy" value={form.cancellationPolicy}
+                    onChange={(v) => handleChange("cancellationPolicy", v)} full />
+                </div>
+              )}
+
+              {/* ---------- POLICIES ---------- */}
+              {activeSection === "policy" && (
+                <div style={styles.checkGrid}>
+                  {POLICY_FIELDS.map(([key, label]) => (
+                    <CheckField key={key} label={label} checked={form[key]}
+                      onChange={() => handleCheckbox(key)} />
+                  ))}
+                </div>
+              )}
+
+              {/* ---------- MEDIA ---------- */}
+              {activeSection === "media" && (
+                <div style={styles.fieldGrid}>
+                  <TextField label="Cover Image URL" value={form.coverImage}
+                    onChange={(v) => handleChange("coverImage", v)} full />
+                  <TextAreaField
+                    label="Image URLs (comma separated)"
+                    value={form.imagesText}
+                    onChange={(v) => handleChange("imagesText", v)}
+                    full
+                  />
+                  <CheckField label="Featured Room" checked={form.featured}
+                    onChange={() => handleCheckbox("featured")} />
+                </div>
+              )}
+
+              <div style={styles.modalFooter}>
+                <button type="button" style={styles.cancelBtn} onClick={closeModal}>
+                  Cancel
+                </button>
+                <button type="submit" style={styles.primaryBtn} disabled={saving}>
+                  {saving ? "Saving…" : editingRoomId ? "Update Room" : "Create Room"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ================================================================
+   REUSABLE FIELD COMPONENTS
+================================================================ */
+function TextField({ label, value, onChange, full }) {
+  return (
+    <div style={{ ...styles.field, gridColumn: full ? "1 / -1" : "auto" }}>
+      <label style={styles.label}>{label}</label>
+      <input
+        style={styles.input}
+        type="text"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+      />
+    </div>
+  );
+}
+
+function TextAreaField({ label, value, onChange, full }) {
+  return (
+    <div style={{ ...styles.field, gridColumn: full ? "1 / -1" : "auto" }}>
+      <label style={styles.label}>{label}</label>
+      <textarea
+        style={{ ...styles.input, minHeight: 70, resize: "vertical" }}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+      />
+    </div>
+  );
+}
+
+function NumberField({ label, value, onChange, min, max }) {
+  return (
+    <div style={styles.field}>
+      <label style={styles.label}>{label}</label>
+      <input
+        style={styles.input}
+        type="number"
+        value={value}
+        min={min}
+        max={max}
+        onChange={(e) => onChange(e.target.value)}
+      />
+    </div>
+  );
+}
+
+function SelectField({ label, value, options, onChange }) {
+  return (
+    <div style={styles.field}>
+      <label style={styles.label}>{label}</label>
+      <select style={styles.input} value={value} onChange={(e) => onChange(e.target.value)}>
+        {options.map((opt) => (
+          <option key={opt} value={opt}>
+            {opt}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}
+
+function CheckField({ label, checked, onChange }) {
+  return (
+    <label style={styles.checkField}>
+      <input type="checkbox" checked={!!checked} onChange={onChange} />
+      <span>{label}</span>
+    </label>
+  );
+}
+
+/* ================================================================
+   STYLES
+================================================================ */
+const styles = {
+  wrapper: { position: "relative" },
+
+  toast: {
+    position: "fixed",
+    top: 20,
+    right: 20,
+    padding: "12px 20px",
+    borderRadius: 8,
+    color: "#fff",
+    fontWeight: 600,
+    zIndex: 2000,
+    boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
+  },
+
+  topBar: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "flex-end",
+    gap: 16,
+    marginBottom: 8,
+    flexWrap: "wrap",
+  },
+  hotelSelectBox: { minWidth: 260 },
+  hotelSubtitle: { color: "#666", marginBottom: 20, fontSize: 14 },
+
+  mutedText: { color: "#888", fontSize: 14 },
+
+  primaryBtn: {
+    background: "linear-gradient(90deg, #0f3460 0%, #1a5490 100%)",
+    color: "#fff",
+    border: "none",
+    padding: "12px 22px",
+    borderRadius: 8,
+    fontWeight: 600,
+    fontSize: 14,
+    cursor: "pointer",
+    boxShadow: "0 2px 8px rgba(15,52,96,0.3)",
+  },
+  cancelBtn: {
+    background: "#eee",
+    color: "#333",
+    border: "none",
+    padding: "12px 22px",
+    borderRadius: 8,
+    fontWeight: 600,
+    fontSize: 14,
+    cursor: "pointer",
+  },
+
+  emptyState: {
+    textAlign: "center",
+    padding: 60,
+    background: "#fff",
+    borderRadius: 12,
+    color: "#888",
+    boxShadow: "0 2px 10px rgba(0,0,0,0.05)",
+  },
+
+  roomGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+    gap: 20,
+  },
+
+  roomCard: {
+    background: "#fff",
+    borderRadius: 12,
+    overflow: "hidden",
+    boxShadow: "0 2px 10px rgba(0,0,0,0.08)",
+    display: "flex",
+    flexDirection: "column",
+  },
+  roomCardHeader: { position: "relative" },
+  roomImage: {
+    height: 140,
+    background: "#e9ecf5 center/cover no-repeat",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "#aaa",
+  },
+  statusBadge: {
+    position: "absolute",
+    top: 10,
+    right: 10,
+    padding: "4px 10px",
+    borderRadius: 20,
+    fontSize: 11,
+    fontWeight: 700,
+    border: "1px solid",
+    background: "#fff",
+  },
+  roomCardBody: { padding: 16 },
+  roomTitle: { margin: 0, fontSize: 16, color: "#1a1a2e" },
+  roomType: {
+    margin: "4px 0 10px 0",
+    fontSize: 12,
+    color: "#888",
+    textTransform: "capitalize",
+  },
+  roomMetaRow: {
+    display: "flex",
+    justifyContent: "space-between",
+    fontSize: 13,
+    color: "#555",
+    marginBottom: 6,
+  },
+  roomActions: { display: "flex", gap: 8, marginTop: 12 },
+  smallBtn: {
+    flex: 1,
+    padding: "8px 10px",
+    borderRadius: 6,
+    border: "none",
+    background: "#0f346022",
+    color: "#0f3460",
+    fontSize: 12,
+    fontWeight: 600,
+    cursor: "pointer",
+  },
+  statusSelect: {
+    marginTop: 10,
+    width: "100%",
+    padding: 8,
+    borderRadius: 6,
+    border: "1px solid #ddd",
+    fontSize: 12,
+  },
+
+  /* MODAL */
+  modalOverlay: {
+    position: "fixed",
+    inset: 0,
+    background: "rgba(0,0,0,0.5)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 1000,
+    padding: 20,
+  },
+  modalBox: {
+    background: "#fff",
+    borderRadius: 12,
+    width: "100%",
+    maxWidth: 800,
+    maxHeight: "90vh",
+    overflowY: "auto",
+    padding: 24,
+  },
+  modalHeader: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 16,
+  },
+  modalTitle: { margin: 0, fontSize: 20, color: "#1a1a2e" },
+  closeBtn: {
+    background: "#f2f2f2",
+    border: "none",
+    width: 32,
+    height: 32,
+    borderRadius: "50%",
+    cursor: "pointer",
+    fontSize: 14,
+  },
+
+  tabRow: {
+    display: "flex",
+    gap: 6,
+    flexWrap: "wrap",
+    marginBottom: 16,
+    borderBottom: "1px solid #eee",
+    paddingBottom: 10,
+  },
+  tabBtn: {
+    padding: "8px 14px",
+    borderRadius: 20,
+    border: "1px solid #ddd",
+    background: "#fafafa",
+    fontSize: 12,
+    fontWeight: 600,
+    cursor: "pointer",
+    color: "#555",
+  },
+  tabBtnActive: {
+    background: "#0f3460",
+    color: "#fff",
+    borderColor: "#0f3460",
+  },
+
+  errorBox: {
+    background: "#f4433622",
+    color: "#c62828",
+    padding: "10px 14px",
+    borderRadius: 8,
+    fontSize: 13,
+    marginBottom: 14,
+  },
+
+  form: { display: "flex", flexDirection: "column", gap: 16 },
+
+  fieldGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
+    gap: 14,
+  },
+  checkGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+    gap: 10,
+  },
+
+  field: { display: "flex", flexDirection: "column", gap: 4 },
+  label: { fontSize: 12, fontWeight: 600, color: "#555" },
+  input: {
+    padding: "10px 12px",
+    borderRadius: 8,
+    border: "1px solid #ddd",
+    fontSize: 13,
+    outline: "none",
+  },
+  checkField: {
+    display: "flex",
+    alignItems: "center",
+    gap: 8,
+    fontSize: 13,
+    color: "#444",
+    background: "#fafafa",
+    padding: "8px 12px",
+    borderRadius: 8,
+    border: "1px solid #eee",
+  },
+
+  modalFooter: {
+    display: "flex",
+    justifyContent: "flex-end",
+    gap: 12,
+    marginTop: 10,
+    borderTop: "1px solid #eee",
+    paddingTop: 16,
+  },
+};
