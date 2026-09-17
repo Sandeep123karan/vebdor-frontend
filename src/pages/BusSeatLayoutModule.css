@@ -1,0 +1,524 @@
+/* ==========================================
+   SEAT LAYOUT MODULE
+========================================== */
+.seat-layout-module {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header */
+.module-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.module-header h2 {
+  font-size: 24px;
+  color: #1a1a2e;
+  margin: 0;
+}
+
+/* Bus Selector */
+.bus-selector {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  background: #f8f9fa;
+  padding: 16px 20px;
+  border-radius: 12px;
+}
+
+.bus-selector label {
+  font-weight: 600;
+  color: #333;
+}
+
+.bus-select {
+  flex: 1;
+  min-width: 200px;
+  padding: 10px 14px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  background: white;
+  cursor: pointer;
+}
+
+.bus-select:focus {
+  outline: none;
+  border-color: #d84a4a;
+}
+
+.btn-refresh {
+  padding: 10px 20px;
+  background: #2196F3;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-refresh:hover {
+  background: #1976D2;
+}
+
+/* Loading */
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  padding: 60px 0;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid #f0f2f5;
+  border-top: 4px solid #d84a4a;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ==========================================
+   LAYOUT PLACEHOLDER
+========================================== */
+.layout-placeholder {
+  text-align: center;
+  padding: 80px 20px;
+  background: #f8f9fa;
+  border-radius: 16px;
+}
+
+.placeholder-icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+
+.layout-placeholder h3 {
+  font-size: 20px;
+  color: #1a1a2e;
+  margin-bottom: 8px;
+}
+
+.layout-placeholder p {
+  color: #888;
+}
+
+/* ==========================================
+   LAYOUT CONTAINER
+========================================== */
+.layout-container {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.layout-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.layout-header h3 {
+  margin: 0;
+  color: #1a1a2e;
+}
+
+.btn-generate {
+  padding: 8px 16px;
+  background: #FF9800;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-generate:hover {
+  background: #F57C00;
+}
+
+/* ==========================================
+   LAYOUT FORM
+========================================== */
+.layout-form {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+}
+
+.form-group {
+  margin-bottom: 12px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 500;
+  font-size: 13px;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #d84a4a;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #d84a4a;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.btn-generate-layout {
+  padding: 10px 24px;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-generate-layout:hover {
+  background: #388E3C;
+}
+
+.btn-save {
+  padding: 10px 32px;
+  background: #d84a4a;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-save:hover:not(:disabled) {
+  background: #b82f36;
+}
+
+.btn-save:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* ==========================================
+   SEAT LAYOUT VIEW
+========================================== */
+.seat-layout-view {
+  margin-top: 16px;
+}
+
+.deck-section {
+  margin-bottom: 24px;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 12px;
+}
+
+.deck-section h4 {
+  margin: 0 0 12px;
+  color: #1a1a2e;
+  font-size: 16px;
+}
+
+/* Seat Grid */
+.seat-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.seat-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.row-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #888;
+  min-width: 50px;
+}
+
+.seat-row-seats {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.seat-btn {
+  width: 56px;
+  height: 56px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  position: relative;
+  font-size: 11px;
+}
+
+.seat-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.seat-btn .seat-number {
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.seat-btn .seat-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-top: 2px;
+}
+
+.seat-btn.available {
+  border-color: #4CAF50;
+}
+
+.seat-btn.available .seat-status-dot {
+  background: #4CAF50;
+}
+
+.seat-btn.blocked {
+  border-color: #FF9800;
+}
+
+.seat-btn.blocked .seat-status-dot {
+  background: #FF9800;
+}
+
+.seat-btn.maintenance {
+  border-color: #f44336;
+}
+
+.seat-btn.maintenance .seat-status-dot {
+  background: #f44336;
+}
+
+.no-seats {
+  color: #888;
+  font-style: italic;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Legend */
+.legend {
+  display: flex;
+  gap: 24px;
+  padding: 12px 16px;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  margin-top: 12px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #555;
+}
+
+.legend-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+}
+
+.legend-dot.available {
+  background: #4CAF50;
+}
+
+.legend-dot.blocked {
+  background: #FF9800;
+}
+
+.legend-dot.maintenance {
+  background: #f44336;
+}
+
+/* ==========================================
+   MODAL
+========================================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  background: white;
+  border-radius: 16px;
+  max-width: 450px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: modalFade 0.3s ease;
+}
+
+@keyframes modalFade {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid #f0f2f5;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 20px;
+  color: #1a1a2e;
+}
+
+.modal-close {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: #f0f2f5;
+  border-radius: 50%;
+  font-size: 24px;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-close:hover {
+  background: #e0e0e0;
+}
+
+.modal-body {
+  padding: 24px;
+}
+
+.seat-info {
+  background: #f8f9fa;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.seat-info p {
+  margin: 4px 0;
+  font-size: 14px;
+}
+
+.seat-info strong {
+  color: #1a1a2e;
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+@media (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .bus-selector {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .bus-select {
+    min-width: 100%;
+  }
+
+  .seat-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 9px;
+  }
+
+  .seat-btn .seat-number {
+    font-size: 10px;
+  }
+
+  .layout-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .legend {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+}

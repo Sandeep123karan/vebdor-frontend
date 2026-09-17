@@ -48,7 +48,7 @@ const emptyRoom = {
 };
 
 export default function VendorHotels() {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("vendorToken");
 
   const [hotels,         setHotels]         = useState([]);
   const [filtered,       setFiltered]       = useState([]);
@@ -82,7 +82,7 @@ export default function VendorHotels() {
 
   /* ══ LIFECYCLE ══ */
   useEffect(() => {
-    if (!token) { window.location.href = "/"; return; }
+    if (!token) { window.location.replace("/vendor-login"); return; }
     load();
   }, []);
   useEffect(() => { applyFilters(); }, [hotels, filt]);

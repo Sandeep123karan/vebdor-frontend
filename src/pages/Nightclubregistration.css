@@ -1,0 +1,1100 @@
+/* ==========================================
+   NIGHT CLUB REGISTRATION - COMPLETE CSS
+========================================== */
+
+.club-registration {
+  font-family: 'Inter', sans-serif;
+  color: #1a1a2e;
+}
+
+/* ==========================================
+   HEADER
+========================================== */
+.club-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: #ffffff;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.club-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.club-logo-icon { font-size: 2rem; }
+
+.club-logo-text { font-size: 1.5rem; font-weight: 700; color: #1a1a2e; }
+
+.club-logo-text small { font-weight: 400; color: #666; font-size: 0.8rem; }
+
+.club-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.club-header-actions span {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.club-login-link {
+  color: #7b2ff7;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.5rem 1.5rem;
+  border: 2px solid #7b2ff7;
+  border-radius: 8px;
+  transition: all 0.2s;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.club-login-link:hover {
+  background: #7b2ff7;
+  color: white;
+}
+
+/* ==========================================
+   HERO SECTION
+========================================== */
+.club-hero {
+  background: linear-gradient(135deg, #1a0033 0%, #4b0f8c 50%, #7b2ff7 100%);
+  color: white;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.club-hero h1 {
+  font-size: 2.5rem;
+  max-width: 800px;
+  margin: 0 auto 1rem;
+}
+
+.club-hero p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+
+.club-stats {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.club-stats span {
+  background: rgba(255,255,255,0.15);
+  padding: 0.5rem 1.5rem;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+/* ==========================================
+   FORM CONTAINER
+========================================== */
+.club-form-container {
+  padding: 3rem 2rem;
+  background: #f5f0fb;
+}
+
+.club-form-wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+.club-form-wrapper h2 {
+  font-size: 1.8rem;
+  margin-bottom: 0.25rem;
+}
+
+.club-form-subtitle {
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+/* ==========================================
+   PROGRESS STEPS - 4-STEP
+========================================== */
+.club-progress-steps {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  position: relative;
+  padding: 0 0.5rem;
+}
+
+.club-progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  position: relative;
+}
+
+.club-progress-number {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #e8e8e8;
+  color: #888;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  z-index: 2;
+  border: 2px solid transparent;
+}
+
+.club-progress-step.active .club-progress-number {
+  background: #7b2ff7;
+  color: white;
+  border-color: #5c1cc4;
+  box-shadow: 0 4px 12px rgba(123, 47, 247, 0.3);
+}
+
+.club-progress-step.completed .club-progress-number {
+  background: #4CAF50;
+  color: white;
+  border-color: #388E3C;
+}
+
+.club-progress-label {
+  margin-top: 0.5rem;
+  font-size: 0.65rem;
+  color: #888;
+  text-align: center;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.club-progress-step.active .club-progress-label {
+  color: #7b2ff7;
+}
+
+.club-progress-step.completed .club-progress-label {
+  color: #4CAF50;
+}
+
+.club-progress-line {
+  flex: 1;
+  height: 2px;
+  background: #e8e8e8;
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  right: -50%;
+  z-index: 1;
+}
+
+.club-progress-step.completed .club-progress-line {
+  background: #4CAF50;
+}
+
+/* ==========================================
+   STEP CONTENT
+========================================== */
+.club-step-content h2 {
+  font-size: 1.5rem;
+  color: #1a1a2e;
+  margin-bottom: 0.25rem;
+}
+
+.club-step-content h3 {
+  font-size: 1.2rem;
+  color: #1a1a2e;
+  margin-bottom: 0.25rem;
+}
+
+.club-step-content p {
+  color: #666;
+  margin-bottom: 1.25rem;
+  font-size: 0.9rem;
+}
+
+/* ==========================================
+   FORM GROUPS
+========================================== */
+.club-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.club-form-group {
+  margin-bottom: 1.25rem;
+}
+
+.club-form-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.4rem;
+  font-size: 0.9rem;
+}
+
+.club-form-group input,
+.club-form-group select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+  font-family: inherit;
+}
+
+.club-form-group input:focus,
+.club-form-group select:focus {
+  outline: none;
+  border-color: #7b2ff7;
+  box-shadow: 0 0 0 3px rgba(123, 47, 247, 0.1);
+}
+
+.club-form-group textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 80px;
+}
+
+.club-form-group textarea:focus {
+  outline: none;
+  border-color: #7b2ff7;
+  box-shadow: 0 0 0 3px rgba(123, 47, 247, 0.1);
+}
+
+.club-form-group.checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.club-form-group.checkbox input {
+  width: auto;
+  margin-top: 0.2rem;
+}
+
+.club-form-group.checkbox label {
+  font-weight: 400;
+  font-size: 0.9rem;
+  margin-bottom: 0;
+}
+
+.club-form-group.checkbox a {
+  color: #7b2ff7;
+  text-decoration: none;
+}
+
+.club-form-group.checkbox a:hover {
+  text-decoration: underline;
+}
+
+/* ==========================================
+   CHECKBOX GRIDS (music genres, days, amenities)
+========================================== */
+.club-amenities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 8px;
+  padding-top: 4px;
+}
+
+.club-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.club-checkbox-label:hover {
+  background: #f5f0fb;
+}
+
+.club-checkbox-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #7b2ff7;
+  cursor: pointer;
+}
+
+/* ==========================================
+   FORM ACTIONS
+========================================== */
+.club-form-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 2px solid #f5f0fb;
+}
+
+.club-prev-btn {
+  padding: 0.6rem 1.5rem;
+  background: #f5f0fb;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  color: #555;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-size: 0.9rem;
+}
+
+.club-prev-btn:hover {
+  background: #e6dbf5;
+}
+
+.club-next-btn {
+  padding: 0.6rem 1.5rem;
+  background: #7b2ff7;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-left: auto;
+  font-size: 0.9rem;
+}
+
+.club-next-btn:hover {
+  background: #5c1cc4;
+}
+
+.club-submit-btn {
+  width: 100%;
+  padding: 1rem;
+  background: #7b2ff7;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.club-submit-btn:hover:not(:disabled) {
+  background: #5c1cc4;
+}
+
+.club-submit-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* ==========================================
+   SUMMARY BOX
+========================================== */
+.club-summary-box {
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 1.25rem;
+  margin-top: 1rem;
+  border-left: 4px solid #7b2ff7;
+}
+
+.club-summary-box h4 {
+  margin-top: 0;
+  color: #1a1a2e;
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.club-summary-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid #e9ecef;
+  font-size: 0.85rem;
+}
+
+.club-summary-item:last-child {
+  border-bottom: none;
+}
+
+.club-summary-item span {
+  color: #666;
+}
+
+.club-summary-item strong {
+  color: #1a1a2e;
+}
+
+/* ==========================================
+   SUCCESS SCREEN (replaces OTP full page)
+========================================== */
+.club-otp-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f0fb;
+  padding: 2rem;
+}
+
+.club-otp-box {
+  background: white;
+  padding: 3rem;
+  border-radius: 16px;
+  text-align: center;
+  max-width: 450px;
+  width: 100%;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
+}
+
+.club-otp-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.club-otp-box h2 {
+  font-size: 1.6rem;
+  margin-bottom: 0.5rem;
+}
+
+.club-otp-box p {
+  color: #666;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+/* ==========================================
+   FEATURES SECTION
+========================================== */
+.club-features {
+  padding: 3rem 2rem;
+  background: white;
+}
+
+.club-features h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.club-features-grid {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+}
+
+.club-feature {
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.club-feature span:first-child { font-size: 2.5rem; }
+
+.club-feature h4 { margin: 0.5rem 0; }
+
+.club-feature p { color: #666; font-size: 0.9rem; }
+
+/* ==========================================
+   FAQ SECTION
+========================================== */
+.club-faq {
+  padding: 3rem 2rem;
+  background: #f5f0fb;
+}
+
+.club-faq h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.club-faq-grid {
+  max-width: 800px;
+  margin: 0 auto;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.club-faq-item {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.club-faq-item h4 {
+  margin: 0 0 0.5rem;
+  color: #1a1a2e;
+}
+
+.club-faq-item p {
+  color: #666;
+  margin: 0;
+}
+
+/* ==========================================
+   FOOTER
+========================================== */
+.club-footer {
+  padding: 1.5rem 2rem;
+  background: #1a0033;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.club-footer-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.club-footer-links a {
+  color: #c9a8f0;
+  text-decoration: none;
+}
+
+.club-footer-links a:hover { color: white; }
+
+/* ==========================================
+   LOGIN MODAL STYLES
+========================================== */
+.club-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  backdrop-filter: blur(4px);
+  animation: clubModalFadeIn 0.3s ease;
+}
+
+@keyframes clubModalFadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.club-modal-content {
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: white;
+  border-radius: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.club-modal-close {
+  position: absolute;
+  right: 16px;
+  top: 14px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 50%;
+  font-size: 24px;
+  cursor: pointer;
+  transition: background 0.2s;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+}
+
+.club-modal-close:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+/* Login Modal Left */
+.club-modal-left {
+  background: linear-gradient(135deg, #1a0033 0%, #4b0f8c 50%, #7b2ff7 100%);
+  color: white;
+  padding: 2.5rem;
+  border-radius: 20px 0 0 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.club-modal-left h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.club-modal-left p {
+  opacity: 0.85;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.club-modal-features {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.club-modal-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.club-modal-feature span:first-child {
+  font-size: 1.5rem;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.club-modal-feature h4 {
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+}
+
+.club-modal-feature p {
+  margin: 0;
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+/* Login Modal Right */
+.club-modal-right {
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.club-modal-right h2 {
+  font-size: 1.6rem;
+  margin-bottom: 0.25rem;
+  color: #1a1a2e;
+}
+
+.club-modal-subtitle {
+  color: #888;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.club-modal-error {
+  background: #fde8e8;
+  color: #c62828;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Login Modal Form */
+.club-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.club-modal-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.club-modal-form-group label {
+  font-weight: 500;
+  font-size: 0.85rem;
+  color: #333;
+}
+
+.club-modal-input-wrapper {
+  display: flex;
+  align-items: center;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  transition: border-color 0.2s;
+  background: white;
+  position: relative;
+}
+
+.club-modal-input-wrapper:focus-within {
+  border-color: #7b2ff7;
+  box-shadow: 0 0 0 3px rgba(123, 47, 247, 0.1);
+}
+
+.club-modal-input-icon {
+  padding: 0 0 0 1rem;
+  font-size: 1rem;
+  opacity: 0.5;
+}
+
+.club-modal-input-wrapper input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  background: transparent;
+  font-family: inherit;
+}
+
+.club-modal-password-toggle {
+  background: none;
+  border: none;
+  padding: 0 1rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+}
+
+.club-modal-password-toggle:hover {
+  opacity: 1;
+}
+
+.club-modal-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.club-modal-remember {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  color: #555;
+}
+
+.club-modal-remember input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #7b2ff7;
+  cursor: pointer;
+}
+
+.club-modal-forgot {
+  color: #7b2ff7;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.club-modal-forgot:hover {
+  text-decoration: underline;
+}
+
+.club-modal-submit-btn {
+  width: 100%;
+  padding: 0.8rem;
+  background: #7b2ff7;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.club-modal-submit-btn:hover:not(:disabled) {
+  background: #5c1cc4;
+}
+
+.club-modal-submit-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.club-modal-register-link {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.club-modal-register-link-text {
+  color: #7b2ff7;
+  font-weight: 600;
+  margin-left: 0.25rem;
+  cursor: pointer;
+}
+
+.club-modal-register-link-text:hover {
+  text-decoration: underline;
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+@media (max-width: 1024px) {
+  .club-hero h1 {
+    font-size: 2.2rem;
+  }
+
+  .club-stats {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .club-header {
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .club-header-actions {
+    flex-wrap: wrap;
+  }
+
+  .club-header-actions span {
+    font-size: 0.8rem;
+  }
+
+  .club-login-link {
+    padding: 0.4rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .club-hero {
+    padding: 2.5rem 1rem;
+  }
+
+  .club-hero h1 {
+    font-size: 1.8rem;
+  }
+
+  .club-hero p {
+    font-size: 1rem;
+  }
+
+  .club-stats {
+    gap: 1rem;
+  }
+
+  .club-stats span {
+    padding: 0.4rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .club-form-container {
+    padding: 2rem 1rem;
+  }
+
+  .club-form-wrapper {
+    padding: 1.5rem;
+  }
+
+  .club-form-wrapper h2 {
+    font-size: 1.4rem;
+  }
+
+  .club-progress-steps {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .club-progress-step {
+    flex: 0 0 calc(50% - 0.5rem);
+  }
+
+  .club-progress-line {
+    display: none;
+  }
+
+  .club-form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .club-amenities-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .club-form-actions {
+    flex-wrap: wrap;
+  }
+
+  .club-prev-btn,
+  .club-next-btn,
+  .club-submit-btn {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .club-footer {
+    flex-direction: column;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .club-footer-links {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .club-otp-box {
+    padding: 2rem;
+  }
+
+  .club-otp-container {
+    padding: 1rem;
+  }
+
+  .club-summary-box {
+    padding: 1rem;
+  }
+
+  .club-summary-item {
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  /* Login Modal Responsive */
+  .club-modal-content {
+    grid-template-columns: 1fr;
+    max-height: 95vh;
+    border-radius: 16px;
+  }
+
+  .club-modal-left {
+    border-radius: 16px 16px 0 0;
+    padding: 1.5rem;
+    display: none;
+  }
+
+  .club-modal-right {
+    padding: 1.5rem;
+  }
+
+  .club-modal-right h2 {
+    font-size: 1.3rem;
+  }
+
+  .club-modal-options {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+
+  .club-modal-close {
+    background: #f0f2f5;
+    color: #333;
+  }
+}
+
+@media (max-width: 480px) {
+  .club-logo-text {
+    font-size: 1.2rem;
+  }
+
+  .club-logo-icon {
+    font-size: 1.5rem;
+  }
+
+  .club-hero h1 {
+    font-size: 1.5rem;
+  }
+
+  .club-stats {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .club-stats span {
+    font-size: 0.8rem;
+  }
+
+  .club-features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .club-amenities-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .club-progress-step {
+    flex: 0 0 100%;
+  }
+
+  .club-progress-label {
+    font-size: 0.6rem;
+  }
+
+  .club-form-group input,
+  .club-form-group select {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .club-submit-btn {
+    font-size: 1rem;
+    padding: 0.8rem;
+  }
+
+  /* Login Modal Mobile */
+  .club-modal-right {
+    padding: 1rem;
+  }
+
+  .club-modal-right h2 {
+    font-size: 1.1rem;
+  }
+
+  .club-modal-subtitle {
+    font-size: 0.8rem;
+  }
+
+  .club-modal-input-wrapper input {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .club-modal-submit-btn {
+    padding: 0.7rem;
+    font-size: 0.9rem;
+  }
+}
