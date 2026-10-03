@@ -9,7 +9,7 @@ const { Option } = Select;
 /* ═══════════════════════════════════════════════
    API  — match kar apna backend port
 ═══════════════════════════════════════════════ */
-const API = "http://localhost:7000/api/vendor/bnb";
+const API = "https://bmtvendorfinal.onrender.com/api/vendor/bnb";
 
 const AMENITIES = [
   "WiFi",

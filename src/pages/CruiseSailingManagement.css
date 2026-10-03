@@ -1,0 +1,659 @@
+.sailing-page {
+  min-height: 100%;
+  padding: 28px;
+  background: #f6f8fb;
+  color: #172033;
+}
+.sailing-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 22px;
+}
+.sailing-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #2563eb;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin-bottom: 7px;
+}
+.sailing-header h1 {
+  margin: 0;
+  font-size: 28px;
+  line-height: 1.2;
+  font-weight: 800;
+  color: #111827;
+}
+.sailing-header p {
+  margin: 7px 0 0;
+  color: #667085;
+  font-size: 14px;
+}
+.sailing-primary-btn,
+.sailing-secondary-btn,
+.sailing-reset-btn,
+.sailing-refresh-btn {
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: .2s ease;
+}
+.sailing-primary-btn {
+  min-height: 42px;
+  padding: 0 17px;
+  border-radius: 9px;
+  background: #2563eb;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 750;
+  box-shadow: 0 5px 14px rgba(37, 99, 235, .18);
+}
+.sailing-primary-btn:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+.sailing-primary-btn:disabled {
+  opacity: .65;
+  cursor: not-allowed;
+  transform: none;
+}
+.sailing-secondary-btn {
+  min-height: 42px;
+  padding: 0 17px;
+  border-radius: 9px;
+  background: #eef1f5;
+  color: #344054;
+  font-size: 13px;
+  font-weight: 700;
+}
+.sailing-secondary-btn:hover {
+  background: #e4e8ee;
+}
+.sailing-alert {
+  min-height: 44px;
+  padding: 0 13px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  font-weight: 650;
+}
+.sailing-alert button {
+  margin-left: auto;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: inherit;
+}
+.sailing-alert-error {
+  background: #fff1f2;
+  color: #be123c;
+  border: 1px solid #fecdd3;
+}
+.sailing-alert-success {
+  background: #ecfdf3;
+  color: #047857;
+  border: 1px solid #a7f3d0;
+}
+.sailing-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.sailing-stat-card {
+  min-height: 100px;
+  padding: 17px;
+  background: #fff;
+  border: 1px solid #e7eaf0;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(16, 24, 40, .035);
+  position: relative;
+}
+.sailing-stat-card span {
+  display: block;
+  color: #667085;
+  font-size: 12px;
+  font-weight: 650;
+  margin-bottom: 8px;
+}
+.sailing-stat-card strong {
+  display: block;
+  font-size: 25px;
+  line-height: 1;
+  color: #101828;
+}
+.sailing-stat-icon {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  background: #eff6ff;
+  color: #2563eb;
+}
+.sailing-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+  padding: 13px;
+  background: #fff;
+  border: 1px solid #e7eaf0;
+  border-radius: 12px;
+  margin-bottom: 14px;
+}
+.sailing-search {
+  height: 40px;
+  min-width: 280px;
+  flex: 1 1 280px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  border: 1px solid #dfe3e9;
+  border-radius: 8px;
+  color: #98a2b3;
+  background: #fff;
+}
+.sailing-search input {
+  border: 0;
+  outline: 0;
+  width: 100%;
+  font: inherit;
+  color: #344054;
+  background: transparent;
+  font-size: 13px;
+}
+.sailing-toolbar select {
+  height: 40px;
+  min-width: 145px;
+  border: 1px solid #dfe3e9;
+  border-radius: 8px;
+  padding: 0 10px;
+  outline: 0;
+  background: #fff;
+  color: #344054;
+  font-size: 12px;
+}
+.sailing-refresh-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: #f2f4f7;
+  color: #475467;
+}
+.sailing-reset-btn {
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 8px;
+  background: #f2f4f7;
+  color: #475467;
+  font-size: 12px;
+  font-weight: 700;
+}
+.sailing-table-card {
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #e7eaf0;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(16, 24, 40, .035);
+}
+.sailing-table-head {
+  min-height: 58px;
+  padding: 0 17px;
+  border-bottom: 1px solid #eef0f3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.sailing-table-head div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sailing-table-head strong {
+  color: #101828;
+  font-size: 14px;
+}
+.sailing-table-head span {
+  color: #98a2b3;
+  font-size: 12px;
+}
+.sailing-loading-mini {
+  color: #667085 !important;
+}
+.sailing-table-wrap {
+  overflow-x: auto;
+}
+.sailing-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1250px;
+}
+.sailing-table th {
+  padding: 11px 13px;
+  text-align: left;
+  background: #fafbfc;
+  color: #667085;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  border-bottom: 1px solid #eef0f3;
+  white-space: nowrap;
+}
+.sailing-table td {
+  padding: 13px;
+  border-bottom: 1px solid #f0f2f5;
+  color: #344054;
+  font-size: 12px;
+  vertical-align: middle;
+}
+.sailing-table tbody tr:hover {
+  background: #fafcff;
+}
+.sailing-table td small {
+  display: block;
+  color: #98a2b3;
+  font-size: 10px;
+  margin-top: 3px;
+}
+.sailing-code {
+  font-weight: 800;
+  color: #1d4ed8;
+}
+.sailing-reference {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 160px;
+  color: #344054;
+  font-weight: 650;
+}
+.sailing-route {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.sailing-route svg {
+  color: #98a2b3;
+}
+.sailing-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 24px;
+  padding: 0 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.status-draft {
+  background: #f2f4f7;
+  color: #475467;
+}
+.status-active {
+  background: #ecfdf3;
+  color: #047857;
+}
+.status-inactive {
+  background: #fff7ed;
+  color: #c2410c;
+}
+.status-cancelled {
+  background: #fff1f2;
+  color: #be123c;
+}
+.status-completed {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+.booking-open {
+  background: #ecfdf3;
+  color: #047857;
+}
+.booking-closed {
+  background: #fff7ed;
+  color: #c2410c;
+}
+.booking-sold-out {
+  background: #fff1f2;
+  color: #be123c;
+}
+.sailing-actions {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.sailing-actions button {
+  width: 31px;
+  height: 31px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #e4e7ec;
+  border-radius: 7px;
+  background: #fff;
+  color: #475467;
+  cursor: pointer;
+}
+.sailing-actions button:hover {
+  background: #f8fafc;
+  border-color: #cfd5dd;
+}
+.sailing-actions button.danger:hover {
+  color: #be123c;
+  border-color: #fecdd3;
+  background: #fff1f2;
+}
+.sailing-actions button:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+.sailing-empty {
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+  color: #98a2b3;
+}
+.sailing-empty strong {
+  color: #344054;
+  font-size: 14px;
+}
+.sailing-empty span {
+  font-size: 12px;
+}
+.sailing-empty .sailing-primary-btn {
+  margin-top: 7px;
+}
+.sailing-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(15, 23, 42, .48);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 22px;
+}
+.sailing-modal {
+  width: min(1050px, 100%);
+  max-height: calc(100vh - 44px);
+  overflow-y: auto;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, .25);
+}
+.sailing-view-modal {
+  width: min(820px, 100%);
+}
+.sailing-modal-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  padding: 18px 21px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  background: #fff;
+  border-bottom: 1px solid #eef0f3;
+}
+.sailing-modal-header span {
+  color: #2563eb;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: .09em;
+}
+.sailing-modal-header h2 {
+  margin: 4px 0 0;
+  color: #101828;
+  font-size: 19px;
+}
+.sailing-modal-header > button {
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  background: #f2f4f7;
+  color: #475467;
+  cursor: pointer;
+}
+.sailing-form-section {
+  padding: 18px 21px;
+  border-bottom: 1px solid #eef0f3;
+}
+.sailing-section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #1d2939;
+  font-size: 13px;
+  font-weight: 800;
+  margin-bottom: 14px;
+}
+.sailing-section-title svg {
+  color: #2563eb;
+}
+.sailing-form-grid {
+  display: grid;
+  gap: 13px;
+}
+.sailing-form-grid.three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.sailing-form-grid.four {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.sailing-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.sailing-field > span {
+  color: #344054;
+  font-size: 11px;
+  font-weight: 750;
+}
+.sailing-field > span b {
+  color: #dc2626;
+}
+.sailing-field input,
+.sailing-field select {
+  width: 100%;
+  height: 40px;
+  box-sizing: border-box;
+  padding: 0 10px;
+  border: 1px solid #dfe3e9;
+  border-radius: 8px;
+  outline: 0;
+  background: #fff;
+  color: #344054;
+  font: inherit;
+  font-size: 12px;
+}
+.sailing-field input:focus,
+.sailing-field select:focus {
+  border-color: #93b4ff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, .08);
+}
+.sailing-field small {
+  color: #98a2b3;
+  font-size: 10px;
+}
+.sailing-modal-footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 9px;
+  padding: 14px 21px;
+  background: #fff;
+  border-top: 1px solid #eef0f3;
+}
+.sailing-view-content {
+  padding: 20px 21px;
+}
+.sailing-view-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.sailing-view-summary > div {
+  padding: 13px;
+  border: 1px solid #e7eaf0;
+  border-radius: 10px;
+  background: #fafbfc;
+}
+.sailing-view-summary span,
+.sailing-detail-item span {
+  display: block;
+  color: #98a2b3;
+  font-size: 10px;
+  font-weight: 750;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  margin-bottom: 5px;
+}
+.sailing-view-summary strong,
+.sailing-detail-item strong {
+  color: #1d2939;
+  font-size: 13px;
+}
+.sailing-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.sailing-detail-item {
+  padding: 13px;
+  border: 1px solid #e7eaf0;
+  border-radius: 10px;
+}
+.sailing-route-card {
+  margin-top: 14px;
+  padding: 18px;
+  border-radius: 11px;
+  background: #f8fafc;
+  border: 1px solid #e7eaf0;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 18px;
+}
+.sailing-route-card > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.sailing-route-card span {
+  color: #2563eb;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: .06em;
+}
+.sailing-route-card strong {
+  color: #1d2939;
+  font-size: 15px;
+}
+.sailing-route-card small {
+  color: #667085;
+  font-size: 11px;
+}
+.sailing-route-card > svg {
+  color: #98a2b3;
+}
+.sailing-created-info {
+  margin-top: 15px;
+  color: #98a2b3;
+  font-size: 10px;
+}
+.sailing-spin {
+  animation: sailingSpin 1s linear infinite;
+}
+@keyframes sailingSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (max-width: 1100px) {
+  .sailing-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .sailing-form-grid.three,
+  .sailing-form-grid.four {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .sailing-view-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 700px) {
+  .sailing-page {
+    padding: 17px;
+  }
+  .sailing-header {
+    flex-direction: column;
+  }
+  .sailing-header h1 {
+    font-size: 23px;
+  }
+  .sailing-header .sailing-primary-btn {
+    width: 100%;
+  }
+  .sailing-stats {
+    grid-template-columns: 1fr;
+  }
+  .sailing-toolbar {
+    align-items: stretch;
+  }
+  .sailing-search {
+    min-width: 100%;
+  }
+  .sailing-toolbar select,
+  .sailing-reset-btn {
+    flex: 1 1 45%;
+  }
+  .sailing-form-grid.three,
+  .sailing-form-grid.four,
+  .sailing-view-summary,
+  .sailing-detail-grid {
+    grid-template-columns: 1fr;
+  }
+  .sailing-modal-backdrop {
+    padding: 10px;
+  }
+  .sailing-modal {
+    max-height: calc(100vh - 20px);
+  }
+  .sailing-route-card {
+    grid-template-columns: 1fr;
+  }
+  .sailing-route-card > svg {
+    transform: rotate(90deg);
+    justify-self: center;
+  }
+}

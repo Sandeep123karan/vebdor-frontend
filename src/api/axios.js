@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Base URL setup
-const API_BASE_URL = 'http://localhost:7000/'; // Your backend URL
+const API_BASE_URL = 'https://bmtvendorfinal.onrender.com/'; // Your backend URL
 
 // Create axios instance with default config
 export const api = axios.create({

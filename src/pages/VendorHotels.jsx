@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const API_URL = "http://localhost:7000/api/vendor/hotels";
+const API_URL = "https://bmtvendorfinal.onrender.com/api/vendor/hotels";
 
 const HOTEL_TYPES     = ["Hotel","Resort","Villa","Hostel","Boutique","Motel","Guesthouse","Apartment"];
 const STAR_RATINGS    = [1,2,3,4,5];

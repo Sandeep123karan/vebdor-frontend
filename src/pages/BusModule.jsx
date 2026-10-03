@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const API = "http://localhost:7000/api/buses";
+const API = "https://bmtvendorfinal.onrender.com/api/buses";
 
 const EMPTY_FORM = {
   // Basic

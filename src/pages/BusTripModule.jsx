@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./BusTripModule.css";
 
-const API_URL = "http://localhost:7000/api/bus-trips";
+const API_URL = "https://bmtvendorfinal.onrender.com/api/bus-trips";
 
 const BusTripModule = () => {
   const [trips, setTrips] = useState([]);
@@ -57,7 +57,7 @@ const BusTripModule = () => {
   const fetchBuses = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:7000/api/buses/vendor", {
+      const response = await axios.get("https://bmtvendorfinal.onrender.com/api/buses/vendor", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setBuses(response.data.buses || []);

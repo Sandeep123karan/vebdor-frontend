@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const API = "http://localhost:7000/api/vendor/cabs/bookings";
+const API = "https://bmtvendorfinal.onrender.com/api/vendor/cabs/bookings";
 
 export default function VendorCabBookings() {
   const token = localStorage.getItem("token");

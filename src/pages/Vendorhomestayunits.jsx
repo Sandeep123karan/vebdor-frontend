@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
      onBack       -> function to go back to Manage Homestays
 ============================================================ */
 
-const API_BASE = "http://localhost:7000/api/homestay-units";
+const API_BASE = "https://bmtvendorfinal.onrender.com/api/homestay-units";
 
 export default function VendorHomestayUnits({
   homestayId,

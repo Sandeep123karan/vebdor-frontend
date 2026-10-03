@@ -6,7 +6,7 @@ import "./VendorProfile.css";
   LOCAL BACKEND
   Production me is URL ko apne Render URL se replace kar dena.
 */
-const API_URL = "http://localhost:7000/api/vendor/auth";
+const API_URL = "https://bmtvendorfinal.onrender.com/api/vendor/auth";
 
 const EMPTY = "Not provided";
 

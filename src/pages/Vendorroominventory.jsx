@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
      onBack   -> function to go back to Room list
 ============================================================ */
 
-const API_BASE = "http://localhost:7000/api/hotel-inventory";
+const API_BASE = "https://bmtvendorfinal.onrender.com/api/hotel-inventory";
 
 const todayStr = () => new Date().toISOString().split("T")[0];
 const addDays = (dateStr, days) => {

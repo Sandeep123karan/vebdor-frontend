@@ -7,7 +7,7 @@ import {
   Spinner,
 } from "react-bootstrap";
 
-const API = "http://localhost:7000/api/homestay-bookings";
+const API = "https://bmtvendorfinal.onrender.com/api/homestay-bookings";
 
 export default function VendorHomestayBookings() {
   const [bookings, setBookings] = useState([]);

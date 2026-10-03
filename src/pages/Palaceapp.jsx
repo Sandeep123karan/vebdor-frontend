@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const API_BASE = "http://localhost:7000/api/palaces";
+const API_BASE = "https://bmtvendorfinal.onrender.com/api/palaces";
 
 const AMENITIES_LIST = [
   "Swimming Pool", "Spa", "Gym", "Restaurant", "Bar", "Parking",

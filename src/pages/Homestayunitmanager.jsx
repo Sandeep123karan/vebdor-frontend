@@ -16,7 +16,7 @@ import React, { useState, useEffect, useCallback } from "react";
      DELETE /api/homestay-units/:unitId/images
 
    Set API_BASE below to wherever your Express server runs
-   (e.g. "http://localhost:7000" in dev, or "" if the frontend
+   (e.g. "https://bmtvendorfinal.onrender.com" in dev, or "" if the frontend
    is served from the same origin / behind a proxy).
 
    Auth: your routes use `protect` (vendor JWT). This component
@@ -25,7 +25,7 @@ import React, { useState, useEffect, useCallback } from "react";
    with whatever you already store after vendor login.
 ============================================================ */
 
-const API_BASE = "http://localhost:7000";
+const API_BASE = "https://bmtvendorfinal.onrender.com";
 
 const UNIT_TYPES = [
   "private-room",

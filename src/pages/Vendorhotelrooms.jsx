@@ -8,7 +8,7 @@
 //      onBack    -> function to go back to Manage Hotels list
 // ============================================================ */
 
-// const API_BASE = "http://localhost:7000/api/hotel-rooms";
+// const API_BASE = "https://bmtvendorfinal.onrender.com/api/hotel-rooms";
 
 // export default function VendorHotelRooms({ hotelId, hotelName, onBack }) {
 //   const [rooms, setRooms] = useState([]);
@@ -824,7 +824,7 @@ import { useEffect, useState } from "react";
      onBack    -> function to go back to Manage Hotels list
 ============================================================ */
 
-const API_BASE = "http://localhost:7000/api/hotel-rooms";
+const API_BASE = "https://bmtvendorfinal.onrender.com/api/hotel-rooms";
 
 /* ---------------------------------------------------------
    TOKEN HELPERS

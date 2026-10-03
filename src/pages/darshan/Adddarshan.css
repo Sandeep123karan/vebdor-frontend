@@ -1,0 +1,76 @@
+/* Add Darshan — works on top of the existing bmt-* classes in VendorLayout.css */
+
+.dd-page .bmt-section-intro .bmt-primary-btn,
+.dd-page .bmt-section-intro .bmt-secondary-btn{flex:none}
+.dd-block{margin-bottom:20px}
+.dd-gap-top{margin-top:18px}
+.dd-label{display:block;margin:16px 0 7px;color:#505761;font-size:11px;font-weight:700}
+.dd-image-row .dd-label{margin-top:0}
+.dd-hint{margin:10px 0 0;color:#8a919a;font-size:11px;text-align:right}
+
+/* notices */
+.dd-notice{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;padding:12px 14px;border-radius:9px;font-size:12px;font-weight:600}
+.dd-notice.success{border:1px solid #a4d8b0;background:#f4fff6;color:#2f7a45}
+.dd-notice.error{border:1px solid #f0b7bc;background:#fff4f5;color:#b3363f}
+.dd-notice button{border:0;background:transparent;color:inherit;font-size:18px;line-height:1}
+
+/* validation */
+.dd-has-error input,.dd-has-error select,.dd-has-error textarea{border-color:#d6455d !important}
+.dd-error{display:block;margin-top:5px;color:#c0394a;font-size:10px;font-weight:600}
+
+/* images */
+.dd-image-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.dd-main-preview{width:100%;height:120px;border-radius:8px;object-fit:cover}
+.bmt-media-item button:disabled{color:#8a919a;cursor:default}
+
+/* operating days */
+.dd-day-row{display:flex;flex-wrap:wrap;gap:8px}
+.dd-day{min-width:56px;padding:9px 12px;border:1px solid #dfe3e9;border-radius:8px;background:#fff;color:#59616b;font-size:11px;font-weight:600}
+.dd-day:hover{border-color:#7e90cf}
+.dd-day.on{border-color:#405ab3;background:#405ab3;color:#fff}
+
+/* suggested type chips */
+.dd-suggest{padding:6px 10px;border:1px dashed #b9c1d5;border-radius:99px;background:#fff;color:#5a6580;font-size:10px;font-weight:600}
+.dd-suggest:hover{border-color:#405ab3;color:#405ab3}
+
+/* submit bar */
+.dd-submit-bar{position:sticky;bottom:0;z-index:5;display:flex;justify-content:flex-end;gap:10px;margin-top:8px;padding:14px 0;background:linear-gradient(to top,#f4f5f9 70%,rgba(244,245,249,0))}
+.dd-submit-bar button:disabled{opacity:.6;cursor:not-allowed}
+
+/* list */
+.dd-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.dd-card{display:flex;overflow:hidden;border:1px solid #e8ebef;border-radius:12px;background:#fff;box-shadow:0 4px 16px rgba(40,49,66,.05)}
+.dd-card-img{display:grid;place-items:center;flex:none;width:150px;background:#eef1ff;color:#4c65be;font-size:28px}
+.dd-card-img img{width:100%;height:100%;object-fit:cover}
+.dd-card-body{flex:1;min-width:0;padding:16px}
+.dd-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.dd-card-top h3{margin:0;overflow:hidden;color:#2f343b;font-size:15px;text-overflow:ellipsis;white-space:nowrap}
+.dd-card-sub{margin:4px 0 0;color:#5a6580;font-size:12px}
+.dd-card-meta{margin:6px 0 0;color:#8a919a;font-size:11px}
+.dd-reject{margin:8px 0 0;color:#c0394a;font-size:11px}
+.dd-card-actions{display:flex;gap:8px;margin-top:14px}
+.dd-card-actions .bmt-secondary-btn,.dd-danger-btn{min-height:34px;padding:0 14px;font-size:11px}
+.dd-danger-btn{border:1px solid #f0b7bc;border-radius:8px;background:#fff;color:#c0394a;font-weight:700}
+.dd-danger-btn:hover{background:#fff4f5}
+
+.dd-status{flex:none;padding:3px 9px;border-radius:99px;font-size:10px;font-weight:700}
+.dd-status.draft{background:#eef0f4;color:#59616b}
+.dd-status.pending{background:#fff6e5;color:#a8700f}
+.dd-status.approved{background:#eaf8ee;color:#2f7a45}
+.dd-status.rejected{background:#fff0f1;color:#b3363f}
+.dd-status.inactive{background:#eef0f4;color:#8a919a}
+
+.dd-empty{display:grid;place-items:center;align-content:center;min-height:280px;padding:20px;text-align:center;color:#858d97}
+.dd-empty h3{margin:14px 0 0;color:#2f343b;font-size:18px}
+.dd-empty p{max-width:420px;margin:7px 0 17px;font-size:12px;line-height:1.6}
+
+@media(max-width:900px){
+  .dd-list{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .dd-image-row{grid-template-columns:1fr}
+  .dd-card{flex-direction:column}
+  .dd-card-img{width:100%;height:150px}
+  .dd-submit-bar{justify-content:stretch}
+  .dd-submit-bar button{flex:1}
+}

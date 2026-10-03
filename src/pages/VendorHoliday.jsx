@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const API = "http://localhost:7000/api/vendor/holidays";
+const API = "https://bmtvendorfinal.onrender.com/api/vendor/holidays";
 
 export default function VendorHoliday() {
   const token = localStorage.getItem("token");

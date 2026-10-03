@@ -3,7 +3,7 @@
 // /* ============================================================
 //    CONFIG — change BASE_URL to your backend
 // ============================================================ */
-// const BASE_URL = "http://localhost:7000/api/vacation-house";
+// const BASE_URL = "https://bmtvendorfinal.onrender.com/api/vacation-house";
 // const TOKEN_KEY = "token";
 
 // const getToken = () => localStorage.getItem(TOKEN_KEY);
@@ -743,7 +743,7 @@
 
 import { useState, useEffect, useRef } from "react";
 
-const BASE_URL = "http://localhost:7000/api/vacation-house";
+const BASE_URL = "https://bmtvendorfinal.onrender.com/api/vacation-house";
 const TOKEN_KEY = "token";
 
 const getToken = () => localStorage.getItem(TOKEN_KEY);

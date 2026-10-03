@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {  message } from 'antd';
 
-const API = "http://localhost:7000/api/vendor/homestay";
+const API = "https://bmtvendorfinal.onrender.com/api/vendor/homestay";
 
 const AMENITIES = ["WiFi", "AC", "TV", "Parking", "Kitchen", "Washing Machine", "Geyser", "Swimming Pool", "Garden", "Balcony", "Power Backup", "CCTV", "Fire Extinguisher", "First Aid Kit"];
 const PROPERTY_TYPES = ["Homestay", "Villa", "Apartment", "Cottage", "Farmhouse"];

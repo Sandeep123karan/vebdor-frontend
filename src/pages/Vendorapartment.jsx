@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const API = "http://localhost:7000/api/vendor/apartment";
+const API = "https://bmtvendorfinal.onrender.com/api/vendor/apartment";
 
 const AMENITIES = ["WiFi", "AC", "TV", "Parking", "Lift", "Geyser", "Power Backup", "Security", "CCTV", "Intercom", "Gym", "Swimming Pool", "Garden", "Club House", "Play Area", "Visitor Parking"];
 const APARTMENT_TYPES = ["Studio", "1BHK", "2BHK", "3BHK", "4BHK", "Penthouse"];

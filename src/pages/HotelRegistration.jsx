@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./HotelRegistration.css";
 
-const API_URL = "http://localhost:7000/api/vendor/auth";
+const API_URL = "https://bmtvendorfinal.onrender.com/api/vendor/auth";
 
 const HotelRegistration = () => {
   // ==========================================

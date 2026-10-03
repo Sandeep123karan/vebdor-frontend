@@ -17,7 +17,7 @@ import "./PartnerAuth.css";
 
 const API_BASE =
   process.env.REACT_APP_API_URL ||
-  "http://localhost:7000";
+  "https://bmtvendorfinal.onrender.com";
 
 const REGISTER_URL =
   `${API_BASE}/api/bmt-partner/auth/register`;
@@ -772,7 +772,12 @@ export default function PartnerAuth({
           form.password
         );
 
-        navigate("/onboarding", {
+        const targetVertical = (partnerVertical || selectedVertical || "").toLowerCase();
+        let targetRoute = "/onboarding";
+        if (targetVertical === "bus") targetRoute = "/bus-register";
+        if (targetVertical === "cab") targetRoute = "/cab-register";
+
+        navigate(targetRoute, {
           replace: true,
           state: {
             vendorAuth: {
@@ -1383,7 +1388,7 @@ function PasswordField({
   visible,
   onToggle,
   autoComplete =
-    "current-password",
+  "current-password",
 }) {
   return (
 

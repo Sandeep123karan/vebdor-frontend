@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./BusRegistration.css";
 
-const API_BASE = process.env.REACT_APP_API_URL || "http://localhost:7000";
+const API_BASE = process.env.REACT_APP_API_URL || "https://bmtvendorfinal.onrender.com";
 const SIGNUP_URL = `${API_BASE}/api/vendor/auth/signup`;
 
 const STEPS = [
